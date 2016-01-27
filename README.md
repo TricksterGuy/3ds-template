@@ -9,6 +9,6 @@ Template Project for Code::Blocks for developing 3ds homebrew
 ## To use
 1. Two build targets are defined 3dsx and citra.
   * The 3dsx target will build both <project name>.3dsx and <project name>.smdh files
-  * The citra target will build <project name>.elf and automatically run citra with the file built (This requires having citra installed an in your $PATH)
+  * The citra target will build <project name>.elf and automatically run citra with the file built (This requires having citra installed and in your $PATH)
 2. When you are ready to compile just hit the build button
 
