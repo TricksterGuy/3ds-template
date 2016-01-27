@@ -8,12 +8,8 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="3dsx">
-				<Option output="player" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="" />
-				<Option object_output="/drive/projects/3ds/.objs" />
-				<Option type="1" />
+				<Option type="4" />
 				<Option compiler="gcc" />
-				<Option use_console_runner="0" />
 				<Compiler>
 					<Add option="-O2" />
 				</Compiler>
@@ -30,12 +26,8 @@
 				</MakeCommands>
 			</Target>
 			<Target title="citra">
-				<Option output="player" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="" />
-				<Option object_output="/drive/projects/3ds/.objs" />
-				<Option type="1" />
+				<Option type="4" />
 				<Option compiler="gcc" />
-				<Option use_console_runner="0" />
 				<MakeCommands>
 					<Build command="$make -f $makefile citra" />
 					<CompileFile command="$make -f $makefile source/$file" />
