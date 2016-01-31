@@ -160,5 +160,5 @@ endif
 #---------------------------------------------------------------------------------
 3dsx : $(OUTPUT).3dsx
 
-citra : $(OUTPUT).elf
+citra : all
 	citra $(OUTPUT).elf
