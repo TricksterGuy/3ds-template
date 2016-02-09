@@ -93,6 +93,7 @@
 			<Option target="3dsx" />
 			<Option target="citra" />
 		</Unit>
+		<Unit filename="resources/AppInfo" />
 		<Unit filename="source/main.cpp">
 			<Option target="3dsx" />
 			<Option target="citra" />
