@@ -1,0 +1,5 @@
+APP_TITLE = Homebrew Template
+APP_DESCRIPTION = 3DS homebrew template.
+APP_AUTHOR = YourName
+APP_PRODUCT_CODE = Your-Code
+APP_UNIQUE_ID = 0x1929
