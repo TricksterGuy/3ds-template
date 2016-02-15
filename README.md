@@ -13,6 +13,10 @@ This fork has a couple of modifications to:
 1. Simply open the 3ds.cbp in Code::Blocks
 2. Choose File > Save as user-template and enter a template name.  The project setup is now a user template to create new projects.
 3. When creating a new project select File > New > From template and follow the wizard's instructions.
+4. Ensure you have the environment variables plugin installed (in linux you can install this by installing the codeblocks-contrib package)
+5. Choose Settings > Environment and scroll down to the Environment Variables section.
+6. Add DEVKITPRO to point to where devkitpro is installed
+7. Add DEVKITARM to point to where devkitarm is.
 
 ## To use
 1. Two build targets are defined 3dsx, citra, and release.
