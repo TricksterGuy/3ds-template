@@ -13,6 +13,9 @@ endif
 
 include $(DEVKITARM)/3ds_rules
 
+# ip address of 3ds for spunch/3dsxlink target.
+IP3DS := 127.0.0.1
+
 #---------------------------------------------------------------------------------
 # Directory Setup
 #---------------------------------------------------------------------------------
@@ -93,10 +96,7 @@ all: $(BUILD) $(OUTPUT_DIR)
 3dsx: $(BUILD) $(OUTPUT_DIR)
 	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile $@
 
-citra: $(BUILD) $(OUTPUT_DIR)
-	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile $@
-
-cia: $(BUILD) $(OUTPUT_DIR) 
+cia: $(BUILD) $(OUTPUT_DIR)
 	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile $@
 
 3ds: $(BUILD) $(OUTPUT_DIR)
@@ -104,7 +104,16 @@ cia: $(BUILD) $(OUTPUT_DIR)
 
 elf: $(BUILD) $(OUTPUT_DIR)
 	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile $@
-	
+
+citra: $(BUILD) $(OUTPUT_DIR)
+	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile $@
+
+3dsxlink: $(BUILD) $(OUTPUT_DIR)
+	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile $@
+
+spunch: $(BUILD) $(OUTPUT_DIR)
+	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile $@
+
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
 
@@ -213,6 +222,12 @@ elf : $(OUTPUT_FILE).elf
 
 citra : $(OUTPUT_FILE).elf
 	citra $(OUTPUT_FILE).elf
+
+spunch : $(OUTPUT_FILE).cia
+	java -jar ../sockfile-2.0.jar $(IP3DS) $(OUTPUT_FILE).cia
+
+3dsxlink : $(OUTPUT_FILE).3dsx
+	3dslink -a $(IP3DS) $(OUTPUT_FILE).3dsx
 
 #---------------------------------------------------------------------------------
 # Binary Data Rules
