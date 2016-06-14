@@ -1,7 +1,7 @@
 # 3ds-template
 Template Project for Code::Blocks for developing 3ds homebrew
 
-This is a fork of [this template](https://github.com/thedax/3DSHomebrewTemplate) which itself is a fork of [Steveice10's template](https://github.com/Steveice10/3DSHomebrewTemplate)
+This is a fork of [this template](https://github.com/thedax/3DSHomebrewTemplate) which in itself is a fork of [Steveice10's template](https://github.com/Steveice10/3DSHomebrewTemplate)
 
 ##This fork has a couple of modifications to:
 1. Add support for the makefile in Code::Blocks (add targets for just building 3dsx, running in citra, and building everything).
@@ -19,9 +19,15 @@ This is a fork of [this template](https://github.com/thedax/3DSHomebrewTemplate)
 7. Add DEVKITARM to point to where devkitarm is.
 
 ## To use
-1. Two build targets are defined 3dsx, citra, and release.
+1. Eight build targets are defined see below for an explanation of each:
+  * The 3ds target will build <project name>.3ds  
   * The 3dsx target will build both <project name>.3dsx and <project name>.smdh files
+  * The cia target will build <project name>.cia  
   * The citra target will build <project name>.elf and automatically run citra with the file built (This requires having citra installed and in your $PATH)
+  * The elf target will build <project name>.elf
+  
+  * The 3dsxlink target will build <project name>.3dsx and send it to your 3ds (In homebrew launcher press Y and you can netload your 3dsx file).  This requires you setting IP3DS in the Makefile to the ip address of your 3ds on your network.
+  * The spunch target will build <project name>.cia and send it to your 3ds so FBI can install it (see note above).
   * The release target will build .elf, .3dsx, .cia, .3ds and a zip file (.3dsx and .smdh only). This requires having [makerom](https://github.com/profi200/Project_CTR) and [bannertool](https://github.com/Steveice10/bannertool) in your $PATH
 2. When you are ready to compile just hit the build button
 
