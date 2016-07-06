@@ -182,7 +182,7 @@ endif
 #---------------------------------------------------------------------------------
 # Main Targets
 #---------------------------------------------------------------------------------
-.PHONY: all 3dsx cia 3ds citra
+.PHONY: all 3dsx cia elf 3ds citra spunch 3dsxlink
 all: $(OUTPUT_FILE).zip $(OUTPUT_FILE).3ds $(OUTPUT_FILE).cia
 
 banner.bnr: $(BANNER_IMAGE_FILE) $(BANNER_AUDIO_FILE)
@@ -220,8 +220,8 @@ cia : $(OUTPUT_FILE).cia
 
 elf : $(OUTPUT_FILE).elf
 
-citra : $(OUTPUT_FILE).elf
-	citra $(OUTPUT_FILE).elf
+citra : $(OUTPUT_FILE).3dsx
+	citra $(OUTPUT_FILE).3dsx
 
 spunch : $(OUTPUT_FILE).cia
 	java -jar ../sockfile-2.0.jar $(IP3DS) $(OUTPUT_FILE).cia
