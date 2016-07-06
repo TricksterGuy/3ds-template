@@ -19,7 +19,8 @@ This is a fork of [this template](https://github.com/thedax/3DSHomebrewTemplate)
 7. Add DEVKITARM to point to where devkitarm is.
 
 ## To use
-1. Eight build targets are defined see below for an explanation of each:
+1. If you intend to use the 3dsxlink and spunch targets ensure you have set IP3DS in the Makefile to the ip address of your 3ds on your network.
+2. Eight build targets are defined see below for an explanation of each:
   * The 3ds target will build <project name>.3ds  
   * The 3dsx target will build both <project name>.3dsx and <project name>.smdh files
   * The cia target will build <project name>.cia  
@@ -29,5 +30,5 @@ This is a fork of [this template](https://github.com/thedax/3DSHomebrewTemplate)
   * The 3dsxlink target will build <project name>.3dsx and send it to your 3ds (In homebrew launcher press Y and you can netload your 3dsx file).  This requires you setting IP3DS in the Makefile to the ip address of your 3ds on your network.
   * The spunch target will build <project name>.cia and send it to your 3ds so FBI can install it (see note above).
   * The release target will build .elf, .3dsx, .cia, .3ds and a zip file (.3dsx and .smdh only). This requires having [makerom](https://github.com/profi200/Project_CTR) and [bannertool](https://github.com/Steveice10/bannertool) in your $PATH
-2. When you are ready to compile just hit the build button
+3. When you are ready to compile just hit the build button
 
