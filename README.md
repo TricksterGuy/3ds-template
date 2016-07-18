@@ -29,6 +29,7 @@ This is a fork of [this template](https://github.com/thedax/3DSHomebrewTemplate)
   
   * The 3dsxlink target will build <project name>.3dsx and send it to your 3ds (In homebrew launcher press Y and you can netload your 3dsx file).  This requires you setting IP3DS in the Makefile to the ip address of your 3ds on your network.
   * The spunch target will build <project name>.cia and send it to your 3ds so FBI can install it (see note above).
-  * The release target will build .elf, .3dsx, .cia, .3ds and a zip file (.3dsx and .smdh only). This requires having [makerom](https://github.com/profi200/Project_CTR) and [bannertool](https://github.com/Steveice10/bannertool) and [zip (if you are on windows)](http://downloads.sourceforge.net/gnuwin32/zip-3.0-bin.zip) [libbz2.dll on windows as well](http://downloads.sourceforge.net/gnuwin32/zip-3.0-dep.zip) in your $PATH
+  * The release target will build .elf, .3dsx, .cia, .3ds and a zip file (.3dsx and .smdh only). This requires having [makerom](https://github.com/profi200/Project_CTR) and [bannertool](https://github.com/Steveice10/bannertool) and [zip (if you are on windows)](http://downloads.sourceforge.net/gnuwin32/zip-3.0-bin.zip) [libbz2.dll (on windows as well)](http://downloads.sourceforge.net/gnuwin32/zip-3.0-dep.zip) in your $PATH
+  * Alternatively you can grab makerom and bannertool prebuilt binaries [here](https://github.com/Steveice10/buildtools).
 3. When you are ready to compile just hit the build button
 
