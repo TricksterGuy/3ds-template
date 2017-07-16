@@ -13,8 +13,8 @@ endif
 
 include $(DEVKITARM)/3ds_rules
 
-# ip address of 3ds for spunch/3dsxlink target.
-IP3DS := 127.0.0.1
+# ip address of 3ds for hblauncher/fbi target.
+IP3DS := 192.168.1.11
 
 #---------------------------------------------------------------------------------
 # Directory Setup
@@ -108,10 +108,10 @@ elf: $(BUILD) $(OUTPUT_DIR)
 citra: $(BUILD) $(OUTPUT_DIR)
 	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile $@
 
-3dsxlink: $(BUILD) $(OUTPUT_DIR)
+hblauncher: $(BUILD) $(OUTPUT_DIR)
 	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile $@
 
-spunch: $(BUILD) $(OUTPUT_DIR)
+fbi: $(BUILD) $(OUTPUT_DIR)
 	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile $@
 
 $(BUILD):
@@ -139,6 +139,9 @@ APP_DESCRIPTION := $(shell echo "$(APP_DESCRIPTION)" | cut -c1-256)
 APP_AUTHOR := $(shell echo "$(APP_AUTHOR)" | cut -c1-128)
 APP_PRODUCT_CODE := $(shell echo $(APP_PRODUCT_CODE) | cut -c1-16)
 APP_UNIQUE_ID := $(shell echo $(APP_UNIQUE_ID) | cut -c1-7)
+APP_VER_MAJOR := $(shell echo $(APP_VER_MAJOR) | cut -c1-3)
+APP_VER_MINOR := $(shell echo $(APP_VER_MINOR) | cut -c1-3)
+APP_VER_MICRO := $(shell echo $(APP_VER_MICRO) | cut -c1-3)
 ifneq ("$(wildcard $(TOPDIR)/$(BANNER_IMAGE).cgfx)","")
 	BANNER_IMAGE_FILE := $(TOPDIR)/$(BANNER_IMAGE).cgfx
 	BANNER_IMAGE_ARG := -ci $(BANNER_IMAGE_FILE)
@@ -164,7 +167,10 @@ OUTPUT_FILE := $(OUTPUT_DIR)/$(OUTPUT_NAME)
 APP_ICON := $(TOPDIR)/$(ICON)
 APP_ROMFS := $(TOPDIR)/$(ROMFS)
 
-COMMON_MAKEROM_PARAMS := -rsf $(RSF) -target t -exefslogo -elf $(OUTPUT_FILE).elf -icon icon.icn -banner banner.bnr -DAPP_TITLE="$(APP_TITLE)" -DAPP_PRODUCT_CODE="$(APP_PRODUCT_CODE)" -DAPP_UNIQUE_ID="$(APP_UNIQUE_ID)" -DAPP_ROMFS="$(APP_ROMFS)" -DAPP_SYSTEM_MODE="64MB" -DAPP_SYSTEM_MODE_EXT="Legacy"
+COMMON_MAKEROM_PARAMS := -rsf $(RSF) -target t -exefslogo -elf $(OUTPUT_FILE).elf -icon icon.icn -banner banner.bnr \
+	-DAPP_TITLE="$(APP_TITLE)" -DAPP_PRODUCT_CODE="$(APP_PRODUCT_CODE)" -DAPP_UNIQUE_ID="$(APP_UNIQUE_ID)" \
+	-DAPP_ROMFS="$(APP_ROMFS)" -DAPP_SYSTEM_MODE="64MB" -DAPP_SYSTEM_MODE_EXT="Legacy" -major "$(APP_VER_MAJOR)" \
+	-minor "$(APP_VER_MINOR)" -micro "$(APP_VER_MICRO)"
 
 ifeq ($(OS),Windows_NT)
 	MAKEROM = makerom.exe
@@ -182,7 +188,7 @@ endif
 #---------------------------------------------------------------------------------
 # Main Targets
 #---------------------------------------------------------------------------------
-.PHONY: all 3dsx cia elf 3ds citra spunch 3dsxlink
+.PHONY: all 3dsx cia elf 3ds citra fbi hblauncher
 all: $(OUTPUT_FILE).zip $(OUTPUT_FILE).3ds $(OUTPUT_FILE).cia
 
 banner.bnr: $(BANNER_IMAGE_FILE) $(BANNER_AUDIO_FILE)
@@ -223,10 +229,10 @@ elf : $(OUTPUT_FILE).elf
 citra : $(OUTPUT_FILE).3dsx
 	citra $(OUTPUT_FILE).3dsx
 
-spunch : $(OUTPUT_FILE).cia
-	java -jar ../sockfile-2.0.jar $(IP3DS) $(OUTPUT_FILE).cia
+fbi : $(OUTPUT_FILE).cia
+	python ../buildtools/servefiles.py $(IP3DS) $(OUTPUT_FILE).cia
 
-3dsxlink : $(OUTPUT_FILE).3dsx
+hblauncher : $(OUTPUT_FILE).3dsx
 	3dslink -a $(IP3DS) $(OUTPUT_FILE).3dsx
 
 #---------------------------------------------------------------------------------
