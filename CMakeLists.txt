@@ -9,11 +9,10 @@ set(SOURCE_FILES
         source/graphics/Output.h
         source/graphics/Output.cpp)
 
-add_executable(3DSBuildTemplate ${SOURCE_FILES})
-
 # Specify external includes here
-include_directories(C:/Development/3ds-homebrew/devkitPro/devkitARM/include/)
-include_directories(C:/Development/3ds-homebrew/devkitPro/devkitARM/arm-none-eabi/include)
-include_directories(C:/Development/3ds-homebrew/devkitPro/libctru/include)
-include_directories(C:/Development/3ds-homebrew/devkitPro/libjpeg-turbo64/include)
-include_directories(C:/Development/3ds-homebrew/devkitPro/portlibs/armv6k/include)
+include_directories($ENV{DEVKITARM}/include/)
+include_directories($ENV{DEVKITARM}/arm-none-eabi/include)
+include_directories($ENV{DEVKITPRO}/libctru/include)
+include_directories($ENV{DEVKITARM}/arm-none-eabi/include/c++/7.1.0)
+
+add_executable(3DSBuildTemplate ${SOURCE_FILES})

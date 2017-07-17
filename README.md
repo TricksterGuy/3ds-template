@@ -2,20 +2,6 @@
 
 A starter template for various 3DS homebrew applications. 
 
-It includes the following enhancements to [Steveice10/BuildTools](https://github.com/Steveice10/BuildTemplate)
-
-1. Add support for the makefile in Code::Blocks (add targets for just building 3dsx, running in citra, and building 
-    everything).
-2. Place compiled files (cia, 3ds, 3dsx) into the output folder.
-3. Remove tools submodule folder and provide makerom and bannertool, (needs to be set in the PATH).
-4. Move tools/template.rsf to resources.rsf.
-5. Reorganized files and scripts to their own folders.
-6. Add support for IntelliJ's [CLion] IDE.
-7. Add windows batch scripts for faster builds (can be set to buttons in [CLion]).
-8. Add MAJOR, MINOR, MICRO version numbers to `AppInfo` for building.
-9. Add romfs directory support.
-10. Include zipped [bannertool], [makerom], (windows) [zip], and [libbz2.dll] executables.
-
 ## Usage
 
 | Make Commands    | Action                                                                                    |
@@ -106,8 +92,8 @@ Finally, clone this repo and build with one of the commands found in usage.
 
 ## Credits
 All of this would not have been possible without the work of
-* [Steveice10](https://github.com/Steveice10)
 * [Smealum](https://github.com/smealum)
+* [Steveice10](https://github.com/Steveice10)
 * and countless others
 
 

@@ -21,11 +21,11 @@ IP3DS := 192.168.1.11
 #---------------------------------------------------------------------------------
 BUILD := build
 OUTPUT := output
-RESOURCES := resources
-DATA := data
-ROMFS := romfs
 SOURCES := source
+DATA := data
 INCLUDES := $(SOURCES) include
+ROMFS := romfs
+RESOURCES := resources
 
 #---------------------------------------------------------------------------------
 # Resource Setup
@@ -37,11 +37,12 @@ ICON := $(RESOURCES)/icon.png
 RSF := $(TOPDIR)/$(RESOURCES)/template.rsf
 
 #---------------------------------------------------------------------------------
-# Build Setup
+# Build Setup (code generation)
 #---------------------------------------------------------------------------------
 ARCH := -march=armv6k -mtune=mpcore -mfloat-abi=hard
 
-COMMON_FLAGS := -g -Wall -Wno-strict-aliasing -O3 -mword-relocations -fomit-frame-pointer -ffast-math $(ARCH) $(INCLUDE) -DARM11 -D_3DS $(BUILD_FLAGS)
+COMMON_FLAGS := -g -Wall -Wno-strict-aliasing -O3 -mword-relocations -fomit-frame-pointer \
+	-ffast-math $(ARCH) $(INCLUDE) -DARM11 -D_3DS $(BUILD_FLAGS)
 CFLAGS := $(COMMON_FLAGS) -std=gnu99
 CXXFLAGS := $(COMMON_FLAGS) -std=gnu++11
 ifeq ($(ENABLE_EXCEPTIONS),)
@@ -51,7 +52,7 @@ endif
 ASFLAGS := -g $(ARCH)
 LDFLAGS = -specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
-LIBS := -lctru -lm
+LIBS := -lcitro3d -lctru -lm
 LIBDIRS := $(PORTLIBS) $(CTRULIB) ./lib
 
 #---------------------------------------------------------------------------------
@@ -67,10 +68,19 @@ CFILES := $(foreach dir,$(SOURCES),$(notdir $(call recurse,f,$(dir),*.c)))
 CPPFILES := $(foreach dir,$(SOURCES),$(notdir $(call recurse,f,$(dir),*.cpp)))
 SFILES := $(foreach dir,$(SOURCES),$(notdir $(call recurse,f,$(dir),*.s)))
 PICAFILES := $(foreach dir,$(SOURCES),$(notdir $(call recurse,f,$(dir),*.pica)))
-BINFILES := $(foreach dir,$(DATA),$(notdir $(call recurse,f,$(dir),*.*)))
+SHLISTFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.shlist)))
+BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
 
-export OFILES := $(addsuffix .o,$(BINFILES)) $(PICAFILES:.pica=.shbin.o) $(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o)
-export INCLUDE := $(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) $(foreach dir,$(LIBDIRS),-I$(dir)/include) -I$(CURDIR)/$(BUILD)
+export OFILES	:=	$(addsuffix .o,$(BINFILES)) \
+	$(PICAFILES:.v.pica=.shbin.o) \
+	$(SHLISTFILES:.shlist=.shbin.o) \
+	$(CPPFILES:.cpp=.o) \
+	$(CFILES:.c=.o) \
+	$(SFILES:.s=.o)
+
+export INCLUDE := $(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
+	$(foreach dir,$(LIBDIRS),-I$(dir)/include) -I$(CURDIR)/$(BUILD)
+
 export LIBPATHS := $(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 
 ifeq ($(strip $(CPPFILES)),)
@@ -235,25 +245,41 @@ fbi : $(OUTPUT_FILE).cia
 hblauncher : $(OUTPUT_FILE).3dsx
 	3dslink -a $(IP3DS) $(OUTPUT_FILE).3dsx
 
+
 #---------------------------------------------------------------------------------
-# Binary Data Rules
+# you need a rule like this for each extension you use as binary data
 #---------------------------------------------------------------------------------
-%.bin.o: %.bin
+%.bin.o	:	%.bin
+#---------------------------------------------------------------------------------
 	@echo $(notdir $<)
 	@$(bin2o)
 
-%.shbin.o: %.pica
+#---------------------------------------------------------------------------------
+# rules for assembling GPU shaders
+#---------------------------------------------------------------------------------
+define shader-as
+	$(eval CURBIN := $(patsubst %.shbin.o,%.shbin,$(notdir $@)))
+	picasso -o $(CURBIN) $1
+	bin2s $(CURBIN) | $(AS) -o $@
+	echo "extern const u8" `(echo $(CURBIN) | sed -e 's/^\([0-9]\)/_\1/' | tr . _)`"_end[];" > `(echo $(CURBIN) | tr . _)`.h
+	echo "extern const u8" `(echo $(CURBIN) | sed -e 's/^\([0-9]\)/_\1/' | tr . _)`"[];" >> `(echo $(CURBIN) | tr . _)`.h
+	echo "extern const u32" `(echo $(CURBIN) | sed -e 's/^\([0-9]\)/_\1/' | tr . _)`_size";" >> `(echo $(CURBIN) | tr . _)`.h
+endef
+
+%.shbin.o : %.v.pica %.g.pica
+	@echo $(notdir $^)
+	@$(call shader-as,$^)
+
+%.shbin.o : %.v.pica
 	@echo $(notdir $<)
-	$(eval CURBIN := $(patsubst %.pica,%.shbin,$(notdir $<)))
-	$(eval CURH := $(patsubst %.pica,%.psh.h,$(notdir $<)))
-	@picasso -h $(CURH) -o $(CURBIN) $<
-	@bin2s $(CURBIN) | $(AS) -o $@
-	@echo "extern const u8" `(echo $(CURBIN) | sed -e 's/^\([0-9]\)/_\1/' | tr . _)`"_end[];" > `(echo $(CURBIN) | tr . _)`.h
-	@echo "extern const u8" `(echo $(CURBIN) | sed -e 's/^\([0-9]\)/_\1/' | tr . _)`"[];" >> `(echo $(CURBIN) | tr . _)`.h
-	@echo "extern const u32" `(echo $(CURBIN) | sed -e 's/^\([0-9]\)/_\1/' | tr . _)`_size";" >> `(echo $(CURBIN) | tr . _)`.h
+	@$(call shader-as,$<)
+
+%.shbin.o : %.shlist
+	@echo $(notdir $<)
+	@$(call shader-as,$(foreach file,$(shell cat $<),$(dir $<)/$(file)))
 
 -include $(DEPENDS)
 
-#---------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------
 endif
-#---------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------

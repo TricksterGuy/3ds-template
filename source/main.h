@@ -12,7 +12,7 @@
 #include <citro3d.h>
 
 //Shader headers
-//#include "vshader_shbin.h"
+#include "vshader_shbin.h"
 
 // Application
 #include "graphics/Output.h"
