@@ -41,11 +41,11 @@ RSF             := $(TOPDIR)/$(RESOURCES)/template.rsf
 # options for code generation
 #---------------------------------------------------------------------------------
 ARCH        := -march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
-COMMON      := -g -Wall -O2 -mword-relocations -fomit-frame-pointer -ffunction-sections $(ARCH) $(INCLUDE) -DARM11 -D_3DS
+COMMON      := -Wall -O2 -mword-relocations -fomit-frame-pointer -ffunction-sections $(ARCH) $(INCLUDE) -DARM11 -D_3DS
 CFLAGS      := $(COMMON) -std=gnu99
 CXXFLAGS    := $(COMMON) -fno-rtti -fno-exceptions -std=gnu++11
-ASFLAGS     := -g $(ARCH)
-LDFLAGS     = -specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
+ASFLAGS     := $(ARCH)
+LDFLAGS     = -specs=3dsx.specs $(ARCH) -Wl,-Map,$(notdir $*.map)
 
 #---------------------------------------------------------------------------------
 # Libraries needed to link into the executable.
@@ -105,24 +105,27 @@ export _3DSXFLAGS += --smdh=$(OUTPUT_FILE).smdh
 # First set of targets ensure the build/output directories are created and execute
 # in the context of the BUILD directory.
 #---------------------------------------------------------------------------------
-.PHONY : clean all bootstrap 3dsx cia elf 3ds citra
+.PHONY : clean all bootstrap 3dsx cia elf 3ds citra release
 
 all : bootstrap
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 
-3dsx: bootstrap
+3dsx : bootstrap
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile $@
 
-cia: bootstrap
+cia : bootstrap
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile $@
 
-3ds: bootstrap
+3ds : bootstrap
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile $@
 
-elf: bootstrap
+elf : bootstrap
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile $@
 
-citra: bootstrap
+citra : bootstrap
+	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile $@
+
+release : bootstrap
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile $@
 
 bootstrap :
@@ -184,7 +187,7 @@ endif
 #---------------------------------------------------------------------------------
 # main targets
 #---------------------------------------------------------------------------------
-.PHONY: all 3dsx cia elf 3ds citra
+.PHONY: all 3dsx cia elf 3ds citra release
 
 $(OUTPUT_FILE).3dsx : $(OUTPUT_FILE).elf $(OUTPUT_FILE).smdh
 
@@ -221,8 +224,10 @@ cia : $(OUTPUT_FILE).cia
 
 elf : $(OUTPUT_FILE).elf
 
-citra : $(OUTPUT_FILE).3dsx
+citra : 3dsx
 	citra $(OUTPUT_FILE).3dsx
+
+release : $(OUTPUT_FILE).zip cia 3ds
 
 #---------------------------------------------------------------------------------
 # Binary Data Rules
