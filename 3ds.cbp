@@ -7,102 +7,52 @@
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
-			<Target title="release">
-				<Option type="4" />
-				<Option compiler="gcc" />
-				<MakeCommands>
-					<Build command="$make -f $makefile" />
-					<CompileFile command="$make -f $makefile source/$file" />
-					<Clean command="$make -f $makefile clean" />
-					<DistClean command="$make -f $makefile distclean$target" />
-					<AskRebuildNeeded command="$make -q -f $makefile $target" />
-					<SilentBuild command="$make -f $makefile &gt; $(CMD_NULL)" />
-				</MakeCommands>
-			</Target>
-			<Target title="citra">
-				<Option type="4" />
-				<Option compiler="gcc" />
-				<MakeCommands>
-					<Build command="$make -f $makefile $target" />
-					<CompileFile command="$make -f $makefile source/$file" />
-					<Clean command="$make -f $makefile clean" />
-					<DistClean command="$make -f $makefile distclean$target" />
-					<AskRebuildNeeded command="$make -q -f $makefile $target" />
-					<SilentBuild command="$make -f $makefile $target &gt; $(CMD_NULL)" />
-				</MakeCommands>
-			</Target>
-			<Target title="cia">
-				<Option type="4" />
-				<Option compiler="gcc" />
-				<MakeCommands>
-					<Build command="$make -f $makefile $target" />
-					<CompileFile command="$make -f $makefile source/$file" />
-					<Clean command="$make -f $makefile clean" />
-					<DistClean command="$make -f $makefile distclean$target" />
-					<AskRebuildNeeded command="$make -q -f $makefile $target" />
-					<SilentBuild command="$make -f $makefile $target &gt; $(CMD_NULL)" />
-				</MakeCommands>
-			</Target>
 			<Target title="3dsx">
 				<Option type="4" />
 				<Option compiler="gcc" />
-				<Compiler>
-					<Add option="-O2" />
-				</Compiler>
-				<Linker>
-					<Add option="-s" />
-				</Linker>
-				<MakeCommands>
-					<Build command="$make -f $makefile $target" />
-					<CompileFile command="$make -f $makefile source/$file" />
-					<Clean command="$make -f $makefile clean" />
-					<DistClean command="$make -f $makefile distclean$target" />
-					<AskRebuildNeeded command="$make -q -f $makefile $target" />
-					<SilentBuild command="$make -f $makefile $target &gt; $(CMD_NULL)" />
-				</MakeCommands>
+			</Target>
+			<Target title="cia">
+				<Option output="3ds" prefix_auto="1" extension_auto="1" />
+				<Option type="0" />
+				<Option compiler="gcc" />
 			</Target>
 			<Target title="3ds">
 				<Option type="4" />
 				<Option compiler="gcc" />
-				<MakeCommands>
-					<Build command="$make -f $makefile $target" />
-					<CompileFile command="$make -f $makefile source/$file" />
-					<Clean command="$make -f $makefile clean" />
-					<DistClean command="$make -f $makefile distclean$target" />
-					<AskRebuildNeeded command="$make -q -f $makefile $target" />
-					<SilentBuild command="$make -f $makefile $target &gt; $(CMD_NULL)" />
-				</MakeCommands>
 			</Target>
 			<Target title="elf">
+				<Option output="3ds" prefix_auto="1" extension_auto="1" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+			</Target>
+			<Target title="citra">
 				<Option type="4" />
 				<Option compiler="gcc" />
-				<MakeCommands>
-					<Build command="$make -f $makefile $target" />
-					<CompileFile command="$make -f $makefile source/$file" />
-					<Clean command="$make -f $makefile clean" />
-					<DistClean command="$make -f $makefile distclean$target" />
-					<AskRebuildNeeded command="$make -q -f $makefile $target" />
-					<SilentBuild command="$make -f $makefile $target &gt; $(CMD_NULL)" />
-				</MakeCommands>
+			</Target>
+			<Target title="release">
+				<Option type="4" />
+				<Option compiler="gcc" />
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="Makefile">
-			<Option target="3dsx" />
-			<Option target="citra" />
+			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="resources/AppInfo" />
-		<Unit filename="resources/audio.wav" />
-		<Unit filename="resources/banner.png" />
-		<Unit filename="resources/icon.png" />
-		<Unit filename="resources/template.rsf" />
-		<Unit filename="source/main.cpp" />
+		<Unit filename="resources/AppInfo">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="resources/template.rsf">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="source/main.cpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Extensions>
+			<lib_finder disable_auto="1" />
 			<code_completion />
 			<envvars />
-			<lib_finder disable_auto="1" />
 			<debugger />
 		</Extensions>
 	</Project>

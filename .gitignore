@@ -1,8 +1,20 @@
+# Compile directories
+build/
+output/
+
+# Codeblocks
+*.layout
+
 # Object files
 *.o
 *.ko
 *.obj
 *.elf
+*.3ds
+*.cia
+*.3dsx
+*.smdh
+*.zip
 
 # Precompiled Headers
 *.gch
