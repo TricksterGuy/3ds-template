@@ -45,7 +45,7 @@ To compile in Code::Blocks simply select your target from the list and click the
     2. Replace the existing files in the `resources` directory to suit your needs.
     
 **Note** please ensure that no folder/directory used in the project contains spaces. The devkitpro Makefile does not like this.
-THat is do not have it in a folder like `C:/3DS Hacking/3ds-template` rather `C:/3DS_Hacking/3ds-template`
+That is, do not have it in a folder like `C:/3DS Hacking/3ds-template` rather `C:/3DS_Hacking/3ds-template`
   
 ## Credits
 All of this would not have been possible without the work of
