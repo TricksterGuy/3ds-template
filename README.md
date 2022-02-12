@@ -38,13 +38,15 @@ This is designed to be a simple and fairly minimal setup required to begin devel
 
 To compile in Code::Blocks simply select your target from the list and click the Gear icon to automatically invoke the `Makefile`
 
+**Note** Make sure you are using MSYS2's make (make.exe) and not MINGW's make (mingw32-make.exe)
+
 ## Creating a new project
 1. Make a new Code::Blocks project via a user-template you just created above.  Or simply copy this directory.
 2. (Only needed for cia/3ds builds) Edit the file `resources/AppInfo`
     1. Edit those values and ensure you choose a unique id see [unique_id_list].
     2. Replace the existing files in the `resources` directory to suit your needs.
     
-**Note** please ensure that no folder/directory used in the project contains spaces. The devkitpro Makefile does not like this.
+**Note** please ensure that no folder/directory used in the project contains spaces. Devkitpro's Makefiles apparently does not like this.
 That is, do not have it in a folder like `C:/3DS Hacking/3ds-template` rather `C:/3DS_Hacking/3ds-template`
   
 ## Credits
